@@ -125,7 +125,7 @@ public class ModelAndExampleBaseClassPlugin extends PluginAdapter {
 	 */
 	@Override
 	public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles(IntrospectedTable introspectedTable) {
-		System.out.println("===============开始生成xml文件================");
+		System.out.println("===============【开始】生成mapper.xml文件================");
 
 		if (oldTypeName != null) {
 			introspectedTable.setBaseRecordType(oldTypeName);
@@ -165,7 +165,7 @@ public class ModelAndExampleBaseClassPlugin extends PluginAdapter {
 			answer.add(xmlFile);
 		}
 
-		System.out.println("===============完成生成xml文件================");
+		System.out.println("===============【结束】生成mapper.xml文件================");
 
 		return answer;
 	}
@@ -179,7 +179,7 @@ public class ModelAndExampleBaseClassPlugin extends PluginAdapter {
 	private String changeTypeName(String oldType) {
 
 		int lastDonlocation = oldType.lastIndexOf('.');
-		return basePackage + "." + baseCLassNamePrefix + oldType.substring(lastDonlocation + 1).substring(1);
+		return basePackage + "." + baseCLassNamePrefix + oldType.substring(lastDonlocation + 1);
 
 	}
 

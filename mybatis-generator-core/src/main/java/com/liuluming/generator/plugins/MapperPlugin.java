@@ -3,7 +3,9 @@ package com.liuluming.generator.plugins;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.mybatis.generator.api.GeneratedJavaFile;
@@ -48,9 +50,10 @@ public class MapperPlugin extends PluginAdapter {
 
 	@Override
 	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(IntrospectedTable introspectedTable) {
-		System.out.println("===============开始：生成Mapper文件================");
+		System.out.println("===============【开始】生成Mapper.java文件================");
 
 		JavaFormatter javaFormatter = context.getJavaFormatter();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		List<GeneratedJavaFile> mapperJavaFiles = new ArrayList<GeneratedJavaFile>();
 		for (GeneratedJavaFile javaFile : introspectedTable.getGeneratedJavaFiles()) {
@@ -75,8 +78,10 @@ public class MapperPlugin extends PluginAdapter {
 
 			mapperInterface.setVisibility(JavaVisibility.PUBLIC);
 			mapperInterface.addJavaDocLine(" /**");
-			mapperInterface.addJavaDocLine(" * 由MBG工具自动生成");
-			mapperInterface.addJavaDocLine(" **/");
+			mapperInterface.addJavaDocLine(" *  It's a mybatis mapping file <br>");
+			mapperInterface.addJavaDocLine(" * @created by:  mybatis generator <br>");
+			mapperInterface.addJavaDocLine(" * @created at: " + dateFormat.format(new Date()) + " <br>");
+			mapperInterface.addJavaDocLine(" */");
 
 			FullyQualifiedJavaType subModelJavaType = new FullyQualifiedJavaType(subModelType);
 			mapperInterface.addImportedType(subModelJavaType);
@@ -109,7 +114,7 @@ public class MapperPlugin extends PluginAdapter {
 
 		}
 
-		System.out.println("===============结束：生成Mapper文件================");
+		System.out.println("===============【结束】生成Mapper.java文件================");
 
 		return mapperJavaFiles;
 	}
