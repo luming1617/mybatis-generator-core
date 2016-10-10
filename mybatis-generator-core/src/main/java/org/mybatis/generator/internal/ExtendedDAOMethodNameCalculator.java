@@ -26,236 +26,223 @@ import org.mybatis.generator.internal.rules.Rules;
  */
 public class ExtendedDAOMethodNameCalculator implements DAOMethodNameCalculator {
 
-    /**
-     * 
-     */
-    public ExtendedDAOMethodNameCalculator() {
-        super();
-    }
+	/**
+	 * 
+	 */
+	public ExtendedDAOMethodNameCalculator() {
+		super();
+	}
 
-    public String getInsertMethodName(IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("insert"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
+	@Override
+	public String getInsertMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("insert"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    /**
-     * 1. if this will be the only updateByPrimaryKey, then the result should be
-     * updateByPrimaryKey. 2. If the other method is enabled, but there are
-     * seperate base and blob classes, then the method name should be
-     * updateByPrimaryKey 3. Else the method name should be
-     * updateByPrimaryKeyWithoutBLOBs
-     */
-    public String getUpdateByPrimaryKeyWithoutBLOBsMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
+	/**
+	 * 1. if this will be the only updateByPrimaryKey, then the result should be
+	 * updateByPrimaryKey. 2. If the other method is enabled, but there are
+	 * seperate base and blob classes, then the method name should be
+	 * updateByPrimaryKey 3. Else the method name should be
+	 * updateByPrimaryKeyWithoutBLOBs
+	 */
+	@Override
+	public String getUpdateByPrimaryKeyWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
 
-        sb.append("update"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
+		sb.append("update"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
 
-        Rules rules = introspectedTable.getRules();
+		Rules rules = introspectedTable.getRules();
 
-        if (!rules.generateUpdateByPrimaryKeyWithBLOBs()) {
-            sb.append("ByPrimaryKey"); //$NON-NLS-1$
-        } else if (rules.generateRecordWithBLOBsClass()) {
-            sb.append("ByPrimaryKey"); //$NON-NLS-1$
-        } else {
-            sb.append("ByPrimaryKeyWithoutBLOBs"); //$NON-NLS-1$
-        }
+		if (!rules.generateUpdateByPrimaryKeyWithBLOBs()) {
+			sb.append("ByPrimaryKey"); //$NON-NLS-1$
+		} else if (rules.generateRecordWithBLOBsClass()) {
+			sb.append("ByPrimaryKey"); //$NON-NLS-1$
+		} else {
+			sb.append("ByPrimaryKeyWithoutBLOBs"); //$NON-NLS-1$
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    /**
-     * 1. if this will be the only updateByPrimaryKey, then the result should be
-     * updateByPrimaryKey. 2. If the other method is enabled, but there are
-     * seperate base and blob classes, then the method name should be
-     * updateByPrimaryKey 3. Else the method name should be
-     * updateByPrimaryKeyWithBLOBs
-     */
-    public String getUpdateByPrimaryKeyWithBLOBsMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("update"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
+	/**
+	 * 1. if this will be the only updateByPrimaryKey, then the result should be
+	 * updateByPrimaryKey. 2. If the other method is enabled, but there are
+	 * seperate base and blob classes, then the method name should be
+	 * updateByPrimaryKey 3. Else the method name should be
+	 * updateByPrimaryKeyWithBLOBs
+	 */
+	@Override
+	public String getUpdateByPrimaryKeyWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
 
-        Rules rules = introspectedTable.getRules();
+		Rules rules = introspectedTable.getRules();
 
-        if (!rules.generateUpdateByPrimaryKeyWithoutBLOBs()) {
-            sb.append("ByPrimaryKey"); //$NON-NLS-1$
-        } else if (rules.generateRecordWithBLOBsClass()) {
-            sb.append("ByPrimaryKey"); //$NON-NLS-1$
-        } else {
-            sb.append("ByPrimaryKeyWithBLOBs"); //$NON-NLS-1$
-        }
+		if (!rules.generateUpdateByPrimaryKeyWithoutBLOBs()) {
+			sb.append("ByPrimaryKey"); //$NON-NLS-1$
+		} else if (rules.generateRecordWithBLOBsClass()) {
+			sb.append("ByPrimaryKey"); //$NON-NLS-1$
+		} else {
+			sb.append("ByPrimaryKeyWithBLOBs"); //$NON-NLS-1$
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getDeleteByExampleMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("delete"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByExample"); //$NON-NLS-1$
+	@Override
+	public String getDeleteByExampleMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("delete"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByExamplePhysically"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getDeleteByPrimaryKeyMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("delete"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByPrimaryKey"); //$NON-NLS-1$
+	@Override
+	public String getDeleteByPrimaryKeyMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("delete"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByPrimaryKeyPhysically"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    /**
-     * 1. if this will be the only selectByExample, then the result should be
-     * selectByExample. 2. Else the method name should be
-     * selectByExampleWithoutBLOBs
-     */
-    public String getSelectByExampleWithoutBLOBsMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("select"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByExample"); //$NON-NLS-1$
+	/**
+	 * 1. if this will be the only selectByExample, then the result should be
+	 * selectByExample. 2. Else the method name should be
+	 * selectByExampleWithoutBLOBs
+	 */
+	@Override
+	public String getSelectByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("select"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByExample"); //$NON-NLS-1$
 
-        Rules rules = introspectedTable.getRules();
+		Rules rules = introspectedTable.getRules();
 
-        if (rules.generateSelectByExampleWithBLOBs()) {
-            sb.append("WithoutBLOBs"); //$NON-NLS-1$
-        }
+		if (rules.generateSelectByExampleWithBLOBs()) {
+			sb.append("WithoutBLOBs"); //$NON-NLS-1$
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    /**
-     * 1. if this will be the only selectByExample, then the result should be
-     * selectByExample. 2. Else the method name should be
-     * selectByExampleWithBLOBs
-     */
-    public String getSelectByExampleWithBLOBsMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("select"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByExample"); //$NON-NLS-1$
+	/**
+	 * 1. if this will be the only selectByExample, then the result should be
+	 * selectByExample. 2. Else the method name should be
+	 * selectByExampleWithBLOBs
+	 */
+	@Override
+	public String getSelectByExampleWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("select"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByExample"); //$NON-NLS-1$
 
-        Rules rules = introspectedTable.getRules();
+		Rules rules = introspectedTable.getRules();
 
-        if (rules.generateSelectByExampleWithoutBLOBs()) {
-            sb.append("WithBLOBs"); //$NON-NLS-1$
-        }
+		if (rules.generateSelectByExampleWithoutBLOBs()) {
+			sb.append("WithBLOBs"); //$NON-NLS-1$
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getSelectByPrimaryKeyMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("select"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByPrimaryKey"); //$NON-NLS-1$
+	@Override
+	public String getSelectByPrimaryKeyMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("select"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByPrimaryKey"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getUpdateByPrimaryKeySelectiveMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("update"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByPrimaryKeySelective"); //$NON-NLS-1$
+	@Override
+	public String getUpdateByPrimaryKeySelectiveMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByPrimaryKeySelective"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getCountByExampleMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("count"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByExample"); //$NON-NLS-1$
+	@Override
+	public String getCountByExampleMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("count"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByExample"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getUpdateByExampleSelectiveMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("update"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("ByExampleSelective"); //$NON-NLS-1$
+	@Override
+	public String getUpdateByExampleSelectiveMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("ByExampleSelective"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getUpdateByExampleWithBLOBsMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("update"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
+	@Override
+	public String getUpdateByExampleWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
 
-        Rules rules = introspectedTable.getRules();
+		Rules rules = introspectedTable.getRules();
 
-        if (!rules.generateUpdateByExampleWithoutBLOBs()) {
-            sb.append("ByExample"); //$NON-NLS-1$
-        } else if (rules.generateRecordWithBLOBsClass()) {
-            sb.append("ByExample"); //$NON-NLS-1$
-        } else {
-            sb.append("ByExampleWithBLOBs"); //$NON-NLS-1$
-        }
+		if (!rules.generateUpdateByExampleWithoutBLOBs()) {
+			sb.append("ByExample"); //$NON-NLS-1$
+		} else if (rules.generateRecordWithBLOBsClass()) {
+			sb.append("ByExample"); //$NON-NLS-1$
+		} else {
+			sb.append("ByExampleWithBLOBs"); //$NON-NLS-1$
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getUpdateByExampleWithoutBLOBsMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
+	@Override
+	public String getUpdateByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
 
-        sb.append("update"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
+		sb.append("update"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
 
-        Rules rules = introspectedTable.getRules();
+		Rules rules = introspectedTable.getRules();
 
-        if (!rules.generateUpdateByExampleWithBLOBs()) {
-            sb.append("ByExample"); //$NON-NLS-1$
-        } else if (rules.generateRecordWithBLOBsClass()) {
-            sb.append("ByExample"); //$NON-NLS-1$
-        } else {
-            sb.append("ByExampleWithoutBLOBs"); //$NON-NLS-1$
-        }
+		if (!rules.generateUpdateByExampleWithBLOBs()) {
+			sb.append("ByExample"); //$NON-NLS-1$
+		} else if (rules.generateRecordWithBLOBsClass()) {
+			sb.append("ByExample"); //$NON-NLS-1$
+		} else {
+			sb.append("ByExampleWithoutBLOBs"); //$NON-NLS-1$
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String getInsertSelectiveMethodName(
-            IntrospectedTable introspectedTable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("insert"); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()
-                .getDomainObjectName());
-        sb.append("Selective"); //$NON-NLS-1$
+	@Override
+	public String getInsertSelectiveMethodName(IntrospectedTable introspectedTable) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("insert"); //$NON-NLS-1$
+		sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+		sb.append("Selective"); //$NON-NLS-1$
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 }

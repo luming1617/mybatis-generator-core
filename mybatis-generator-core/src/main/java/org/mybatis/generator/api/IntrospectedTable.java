@@ -468,8 +468,8 @@ public abstract class IntrospectedTable {
 		setSqlMapAliasedFullyQualifiedRuntimeTableName(calculateSqlMapAliasedFullyQualifiedRuntimeTableName());
 
 		setCountByExampleStatementId("countByExample"); //$NON-NLS-1$
-		setDeleteByExampleStatementId("deleteByExample"); //$NON-NLS-1$
-		setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
+		setDeleteByExampleStatementId("deleteByExamplePhysically"); //$NON-NLS-1$
+		setDeleteByPrimaryKeyStatementId("deleteByPrimaryKeyPhysically"); //$NON-NLS-1$
 		setInsertStatementId("insert"); //$NON-NLS-1$
 		setInsertSelectiveStatementId("insertSelective"); //$NON-NLS-1$
 		setSelectAllStatementId("selectAll"); //$NON-NLS-1$

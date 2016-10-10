@@ -92,7 +92,7 @@ public class MapperPlugin extends PluginAdapter {
 			// 添加泛型支持
 			daoSuperType.addTypeArgument(subModelJavaType);
 			daoSuperType.addTypeArgument(subModelExampleJavaType);
-			daoSuperType.addTypeArgument(new FullyQualifiedJavaType("java.lang.String"));
+			daoSuperType.addTypeArgument(new FullyQualifiedJavaType("java.lang.Long"));
 			mapperInterface.addImportedType(daoSuperType);
 			mapperInterface.addSuperInterface(daoSuperType);
 

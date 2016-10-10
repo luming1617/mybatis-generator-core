@@ -51,7 +51,7 @@ public class MysqlPaginationPlugin extends PluginAdapter {
 		commentGenerator.addFieldComment(field, introspectedTable);
 		topLevelClass.addField(field);
 		char c = name.charAt(0);
-		String camel = Character.toUpperCase(c) + name;
+		String camel = Character.toUpperCase(c) + name.substring(1);
 		Method method = new Method();
 		method.setVisibility(JavaVisibility.PUBLIC);
 		method.setName("set" + camel);
